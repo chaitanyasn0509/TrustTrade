@@ -23,7 +23,10 @@ describe("TrustTradeEscrow", function () {
   });
 
   it("creates and funds an escrow", async function () {
-    const id = await create();
+    const deadline = BigInt((await time.latest()) + 2 * 60 * 60);
+    const tx = await escrow.connect(buyer).createEscrow(seller.address, deadline, "Sample laptop", { value: amount });
+    await expect(tx).to.emit(escrow, "EscrowCreated").withArgs(0, buyer.address, seller.address, amount, deadline, "Sample laptop");
+    const id = (await escrow.nextEscrowId()) - 1n;
     const item = await escrow.getEscrow(id);
     expect(item.buyer).to.equal(buyer.address);
     expect(item.seller).to.equal(seller.address);

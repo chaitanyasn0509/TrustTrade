@@ -61,6 +61,7 @@ contract TrustTradeEscrow is ReentrancyGuard {
         escrowId = nextEscrowId++;
         escrows[escrowId] = Escrow(msg.sender, seller, msg.value, refundDeadline, Status.Funded, description);
         emit EscrowCreated(escrowId, msg.sender, seller, msg.value, refundDeadline, description);
+        emit EscrowCreated(escrowId, msg.sender, seller, msg.value, refundDeadline, description);
     }
 
     function getEscrow(uint256 escrowId) external view returns (Escrow memory) {
